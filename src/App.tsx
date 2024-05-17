@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   // * Date: Fri 17th May 2024
@@ -67,16 +67,12 @@ function App() {
     setData(newData);
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="flex justify-center items-center h-[100vh]">
-      {data.length <= 0 && !loading && !error && (
-        <button
-          className="bg-[#F07C00] text-slate-100 py-2 px-4 md:px-5 lg:py-3 lg:px-6 rounded capitalize font-bold hover:bg-white hover:text-[#F07C00] hover:border-[#F07C00] border-2 transition-all duration-300 ease-in-out"
-          onClick={fetchData}
-        >
-          See entries
-        </button>
-      )}
       {error && !loading && (
         <div className="text-center">
           <p className="text-[#F07C00] text-lg lg:text-2xl font-semibold">
@@ -95,13 +91,63 @@ function App() {
           </button>
         </div>
       )}
-      {/* Loading spinner */}
       {loading && (
-        <div className="flex flex-col justify-center items-center gap-10 text-center">
-          <p className="text-[#F07C00] text-lg lg:text-2xl font-semibold">
-            Loading...
-          </p>
-          <div className=" mr-4 border-t-4 border-[#F07C00] rounded-full w-12 h-12 animate-spin"></div>
+        <div className="container mt-[5rem] md:mt-0 p-5 md:p-0">
+          <table className="min-w-full bg-white border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
+                  Name
+                </th>
+                <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
+                  Price
+                </th>
+                <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
+                  Status
+                </th>
+                <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
+                  Option
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...Array(10)].map((_, index) => (
+                <tr key={index}>
+                  <td
+                    className={`py-2 px-4 border border-gray-300 ${
+                      index % 2 ? "bg-gray-100" : "bg-gray-200"
+                    }`}
+                  >
+                    <div className="animate-pulse">
+                      <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                      <div className="h-3 bg-gray-300 rounded w-1/2"></div>
+                    </div>
+                  </td>
+                  <td
+                    className={`py-2 px-4 border border-gray-300 ${
+                      index % 2 ? "bg-gray-100" : "bg-gray-200"
+                    }`}
+                  >
+                    <div className="animate-pulse h-4 bg-gray-300 rounded w-1/2"></div>
+                  </td>
+                  <td
+                    className={`py-2 px-4 border border-gray-300 ${
+                      index % 2 ? "bg-gray-100" : "bg-gray-200"
+                    }`}
+                  >
+                    <div className="animate-pulse h-4 bg-gray-300 rounded w-3/4"></div>
+                  </td>
+                  <td
+                    className={`py-2 px-4 border border-gray-300 w-10 ${
+                      index % 2 ? "bg-gray-100" : "bg-gray-200"
+                    }`}
+                  >
+                    <div className="animate-pulse h-4 bg-gray-300 rounded w-10"></div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
       {data.length > 0 && !loading && !error && (
@@ -116,7 +162,7 @@ function App() {
                   Name
                 </th>
                 <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
-                  Price (£)
+                  Price
                 </th>
                 <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
                   Status
@@ -147,7 +193,7 @@ function App() {
                       index % 2 ? "bg-gray-100" : "bg-gray-200"
                     }`}
                   >
-                    {item.priceInPounds}
+                    £{item.priceInPounds.toFixed(2)}
                   </td>
                   <td
                     className={`py-2 px-4 border border-gray-300  ${
@@ -181,6 +227,46 @@ function App() {
                   </td>
                 </tr>
               ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {data.length <= 0 && !error && !loading && (
+        <div className="container mt-[5rem] md:mt-0 p-5 md:p-0">
+          <h1 className="text-[#F07C00] text-2xl lg:text-4xl font-semibold text-center mb-5">
+            Entries
+          </h1>
+          <table className="min-w-full bg-white border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
+                  Name
+                </th>
+                <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
+                  Price
+                </th>
+                <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
+                  Status
+                </th>
+                <th className="py-2 px-4 border border-gray-300 bg-[#F07C00] text-white text-left leading-tight font-semibold">
+                  Option
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="py-2 px-4 border border-gray-300 bg-gray-200">
+                  No data
+                </td>
+                <td className="py-2 px-4 border border-gray-300 bg-gray-200">
+                  No data
+                </td>
+                <td className="py-2 px-4 border border-gray-300 bg-gray-200">
+                  No data
+                </td>
+                <td className="py-2 px-4 border border-gray-300 bg-gray-200"></td>
+              </tr>
             </tbody>
           </table>
         </div>
