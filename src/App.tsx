@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function App() {
   // * Date: Fri 17th May 2024
@@ -34,7 +34,6 @@ function App() {
   const [data, setData] = useState<Item[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function fetchData() {
     setLoading(true);
@@ -48,7 +47,7 @@ function App() {
         setLoading(false);
       }, 2000);
       setError(true);
-      setErrorMessage(err.message);
+
       throw new Error(err.message);
     }
     setTimeout(() => {
@@ -90,7 +89,6 @@ function App() {
             className="bg-[#F07C00] text-slate-100 py-2 px-4 md:px-5 lg:py-3 lg:px-6 rounded capitalize font-bold hover:bg-white hover:text-[#F07C00] hover:border-[#F07C00] border-2 transition-all duration-300 ease-in-out mt-10"
             onClick={() => {
               setError(false);
-              setErrorMessage(null);
             }}
           >
             Go back
